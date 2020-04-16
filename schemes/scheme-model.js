@@ -18,7 +18,14 @@ function find() {
 function findById(id) {
   return db('schemes')
   .where({ id })
-  .first();
+  .first()
+  .then(scheme =>{
+    if(scheme){
+      return scheme;
+    }else {
+      return null;
+    }
+  })
 }
 
 function findSteps(stepId) {
@@ -31,15 +38,17 @@ function findSteps(stepId) {
 function add(scheme) {
   return db('schemes')
     .insert(scheme)
-    .then(ids => ({ id: id[0] }));
+    
 }
 
 function update(changes, id) {
   return db('schemes')
-    .where('id', Number(id))
+    .where({id})
     .update(changes);
 }
 
 function remove(id) {
   return db('schemes')
+  .where({id})
+  .del();
 }
